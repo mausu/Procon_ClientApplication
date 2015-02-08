@@ -6,18 +6,16 @@ package net.mausukun.procon_clientapplication;
 class UserData {
     private int id;
     private String name;
+    private String message;
     private GeoLocation location;
 
-    public UserData(int id, String name, GeoLocation location){
+    public UserData(int id, String name, String message, GeoLocation location){
         this.id = id;
         this.name = name;
+        this.message = message;
         this.location = location;
     }
 
-    public UserData(int id, String name){
-        this.id = id;
-        this.name = name;
-    }
 
     public int getId(){
         return this.id;
@@ -25,6 +23,10 @@ class UserData {
 
     public String getName(){
         return this.name;
+    }
+
+    public String getMessage(){
+        return this.message;
     }
 
     public GeoLocation getGeoLocation(){

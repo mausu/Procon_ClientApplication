@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,9 +25,13 @@ public class CustomListViewAdapter extends ArrayAdapter<UserData> {
 
     }
 
+    private int lastPosition = 0;
+    private Context context;
+
     // コンストラクタ
-    public CustomListViewAdapter(Context context,int textViewResourceId, ArrayList<UserData> labelList) {
-        super(context,textViewResourceId, labelList);
+    public CustomListViewAdapter(Context context) {
+        super(context,R.layout.listiew_item);
+        this.context = context;
     }
 
     @Override
@@ -62,9 +68,19 @@ public class CustomListViewAdapter extends ArrayAdapter<UserData> {
 
         UserData userData = getItem(position);
         holder.userNameView.setText(userData.getName());
-        holder.userIdView.setText(Integer.toString(userData.getId()));
-        holder.messageView.setText(userData.getGeoLocation().toString());
+        holder.userIdView.setText("id: " + userData.getId());
+        holder.messageView.setText(userData.getMessage());
 
+        //最後の要素のみアニメーションをかける
+        if (getCount() -1 == position && lastPosition < position) {
+            //xmlのアニメーション定義ファイルから読み込む
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.item_motion);
+            view.startAnimation(animation);
+            lastPosition = position;
+        }else{
+            //最後の要素でないものはアニメーションを削除
+            view.clearAnimation();
+        }
         return view;
     }
 }
