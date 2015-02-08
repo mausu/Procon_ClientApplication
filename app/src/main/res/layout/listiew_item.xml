@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ClientUserName"
+        android:id="@+id/useNameTextView"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_alignTop="@+id/userImageView"
+        android:layout_toRightOf="@+id/userImageView"
+        android:layout_toEndOf="@+id/userImageView" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userImageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:minWidth="64dp"
+        android:minHeight="64dp"
+        android:maxWidth="64dp"
+        android:maxHeight="64dp"
+        android:background="#ff00b1bb"
+        android:contentDescription="UserImage" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="\@Client_ID"
+        android:id="@+id/userIdTextView"
+        android:layout_marginLeft="16dp"
+        android:layout_alignTop="@+id/useNameTextView"
+        android:layout_toRightOf="@+id/useNameTextView"
+        android:layout_toEndOf="@+id/useNameTextView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is a message from server."
+        android:id="@+id/messageTextView"
+        android:layout_marginRight="16dp"
+        android:layout_below="@+id/useNameTextView"
+        android:layout_alignLeft="@+id/useNameTextView"
+        android:layout_alignStart="@+id/useNameTextView"
+        android:layout_alignBottom="@+id/userImageView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
