@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -94,13 +95,37 @@ public class MainActivity extends ActionBarActivity implements Runnable{
     private Socket socket;
     @Override
     public void run(){
-        try {
-            try {
-                socket = new Socket(host, port);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
+        Thread connectThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    socket = new Socket(host, port);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        connectThread.start();
+        try {
+            connectThread.join(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (socket == null) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.this, "サーバーに接続できませんでした。", Toast.LENGTH_LONG).show();
+                }
+            });
+            showMessage("サーバーに接続できませんでした。");
+            return;
+        }
+
+        try {
             InputStream input = socket.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
@@ -112,8 +137,7 @@ public class MainActivity extends ActionBarActivity implements Runnable{
                 analyzeMessage(message);
             }
         } catch (IOException e) {
-            //ソケットがクローズされた時
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         //ソケットクローズ -> スレッド終了
     }
@@ -125,6 +149,7 @@ public class MainActivity extends ActionBarActivity implements Runnable{
     }
 
     public void close(){
+        if (socket == null) return;
         try {
             Log.d("MainActivity", "Socket Closing...");
             sendMessage(":q");
@@ -135,6 +160,7 @@ public class MainActivity extends ActionBarActivity implements Runnable{
     }
 
     public void sendMessage(final String message){
+        if (socket == null) return;
         try {
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output);
@@ -160,7 +186,9 @@ public class MainActivity extends ActionBarActivity implements Runnable{
                         listView.setSelectionFromTop(position, yOffset);
                     }
                 }else{
-                    listView.setSelection(myAdapter.getCount());
+                    //リストの最後までなめらかにスクロールする
+                    listView.smoothScrollToPosition(myAdapter.getCount());
+                    //listView.setSelection(myAdapter.getCount());
                 }
 
             }
