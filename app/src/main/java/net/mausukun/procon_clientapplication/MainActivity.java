@@ -1,8 +1,8 @@
 package net.mausukun.procon_clientapplication;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,8 +18,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class MainActivity extends ActionBarActivity implements Runnable{
     private CustomListViewAdapter myAdapter;
@@ -44,7 +41,7 @@ public class MainActivity extends ActionBarActivity implements Runnable{
             @Override
             public void onClick(View v) {
                 sendMessage(editText.getText().toString());
-
+                editText.setText("");
             }
         });
 
